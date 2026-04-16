@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="card">
+    <div class="header-row">
+      <h1>Le mie candidature</h1>
+      <button type="button" (click)="logout()">Logout</button>
+    </div>
+
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="company">Azienda</label>
+        <input id="company" type="text" formControlName="company" />
+      </div>
+
+      <div class="field">
+        <label for="position">Posizione</label>
+        <input id="position" type="text" formControlName="position" />
+      </div>
+
+      <div class="field">
+        <label for="status">Stato</label>
+        <select id="status" formControlName="status">
+          <option value="APPLIED">APPLIED</option>
+          <option value="INTERVIEW">INTERVIEW</option>
+          <option value="OFFER">OFFER</option>
+          <option value="REJECTED">REJECTED</option>
+        </select>
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Salvataggio...' : (editingId ? 'Aggiorna candidatura' : 'Aggiungi candidatura') }}
+      </button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Elenco</h2>
+
+    <p *ngIf="applications.length === 0">Nessuna candidatura presente.</p>
+
+    <div class="application-item" *ngFor="let application of applications">
+      <div>
+        <strong>{{ application.company }}</strong>
+        <div>{{ application.position }}</div>
+        <div>{{ application.status }}</div>
+        <div>{{ application.applicationDate }}</div>
+      </div>
+
+      <div>
+        <button type="button" (click)="editApplication(application)">Modifica</button>
+        <button type="button" (click)="deleteApplication(application.id)">Elimina</button>
+      </div>
+    </div>
+  </div>
+</div>
